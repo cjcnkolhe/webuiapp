@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flipkart Shopping App</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body {
+  background: #f1f3f6;
+  color: #212121;
+}
+header {
+  background: #2874f0;
+  color: white;
+  padding: 14px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+}
+.logo span {
+  color: #ffe500;
+}
+.search {
+  display: flex;
+  flex: 1;
+  max-width: 550px;
+}
+.search input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 3px 0 0 3px;
+}
+.search button {
+  padding: 12px 18px;
+  background: white;
+  border: none;
+  color: #2874f0;
+  cursor: pointer;
+}
+.cart {
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.categories {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  background: white;
+  padding: 18px 10px;
+  overflow-x: auto;
+}
+.category {
+  text-align: center;
+  min-width: 85px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+.category .emoji {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.banner {
+  margin: 15px;
+  padding: 32px 20px;
+  border-radius: 5px;
+  background: linear-gradient(120deg, #2874f0, #62b5ff);
+  color: white;
+  text-align: center;
+}
+.banner h1 {
+  font-size: clamp(24px, 4vw, 38px);
+  margin-bottom: 10px;
+}
+.banner p {
+  margin-bottom: 16px;
+}
+.banner button {
+  background: #ffe500;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.section {
+  background: white;
+  margin: 15px;
+  padding: 20px;
+  border-radius: 5px;
+}
+.section h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.product {
+  text-align: center;
+  padding: 15px 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  transition: box-shadow .2s;
+}
+.product:hover {
+  box-shadow: 0 3px 14px #0002;
+}
+.product img {
+  width: 100%;
+  height: 145px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+.product h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.discount {
+  color: #388e3c;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.product button {
+  background: #fb641b;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+}
+.product button:hover {
+  background: #e85b17;
+}
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+}
+footer {
+  text-align: center;
+  background: #172337;
+  color: white;
+  padding: 25px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+@media (max-width: 700px) {
+  header { padding: 14px; }
+  .search { order: 3; flex-basis: 100%; max-width: none; }
+  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section { margin: 10px; padding: 12px; }
+  .banner { margin: 10px; }
+  .categories { justify-content: flex-start; }
+}
+@media (max-width: 360px) {
+  .products { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Flipkart<span>+</span></div>
+
+  <form class="search" id="searchForm">
+    <input id="searchInput" type="search"
+      placeholder="Search for products, brands and more..."
+      aria-label="Search products">
+    <button type="submit">🔍</button>
+  </form>
+
+  <div class="cart" onclick="showCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </div>
+</header>
+
+<nav class="categories">
+  <div class="category" onclick="filterCategory('All')">
+    <span class="emoji">🛍️</span>All
+  </div>
+  <div class="category" onclick="filterCategory('Electronics')">
+    <span class="emoji">📱</span>Electronics
+  </div>
+  <div class="category" onclick="filterCategory('Fashion')">
+    <span class="emoji">👕</span>Fashion
+  </div>
+  <div class="category" onclick="filterCategory('Home')">
+    <span class="emoji">🛋️</span>Home
+  </div>
+  <div class="category" onclick="filterCategory('Appliances')">
+    <span class="emoji">🧊</span>Appliances
+  </div>
+  <div class="category" onclick="filterCategory('Accessories')">
+    <span class="emoji">🎧</span>Accessories
+  </div>
+</nav>
+
+<section class="banner">
+  <h1>Big Shopping Days!</h1>
+  <p>Discover great deals on your favourite products.</p>
+  <button onclick="document.getElementById('productsSection')
+    .scrollIntoView({behavior:'smooth'})">
+    Shop Now
+  </button>
+</section>
+
+<section class="section" id="productsSection">
+  <h2 id="sectionTitle">Best Deals for You</h2>
+  <div class="products" id="productList"></div>
+</section>
+
+<footer>
+  <p>Flipkart-inspired demo shopping app</p>
+  <p style="margin-top:8px">Made with HTML, CSS and JavaScript</p>
+</footer>
+
+<script>
+const products = [
+  {id:1, name:"Smartphone", category:"Electronics",
+   price:12999, discount:"20% off", image:"📱"},
+  {id:2, name:"Wireless Headphones", category:"Accessories",
+   price:1499, discount:"35% off", image:"🎧"},
+  {id:3, name:"Running Shoes", category:"Fashion",
+   price:1999, discount:"40% off", image:"👟"},
+  {id:4, name:"Smart Watch", category:"Electronics",
+   price:2499, discount:"30% off", image:"⌚"},
+  {id:5, name:"Casual T-Shirt", category:"Fashion",
+   price:499, discount:"50% off", image:"👕"},
+  {id:6, name:"Table Lamp", category:"Home",
+   price:799, discount:"25% off", image:"💡"},
+  {id:7, name:"Air Conditioner", category:"Appliances",
+   price:28999, discount:"15% off", image:"❄️"},
+  {id:8, name:"Bluetooth Speaker", category:"Accessories",
+   price:999, discount:"45% off", image:"🔊"}
+];
+
+let cart = [];
+let currentCategory = "All";
+let searchQuery = "";
+
+const productList = document.getElementById("productList");
+
+function renderProducts() {
+  const filtered = products.filter(product => {
+    const matchesCategory = currentCategory === "All" ||
+      product.category === currentCategory;
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery) ||
+      product.category.toLowerCase().includes(searchQuery);
+    return matchesCategory && matchesSearch;
+  });
+
+  document.getElementById("sectionTitle").textContent =
+    searchQuery ? "Search Results" :
+    currentCategory === "All" ? "Best Deals for You" :
+    currentCategory;
+
+  if (!filtered.length) {
+    productList.innerHTML =
+      '<div class="empty">No products found. Try another search.</div>';
+    return;
+  }
+
+  productList.innerHTML = filtered.map(product => `
+    <article class="product">
+      <div style="font-size:85px;height:145px;display:grid;
+        place-items:center" aria-label="${product.name}">
+        ${product.image}
+      </div>
+      <h3>${product.name}</h3>
+      <div class="price">₹${product.price.toLocaleString("en-IN")}</div>
+      <div class="discount">${product.discount}</div>
+      <button onclick="addToCart(${product.id})">
+        Add to Cart
+      </button>
+    </article>
+  `).join("");
+}
+
+function filterCategory(category) {
+  currentCategory = category;
+  searchQuery = "";
+  document.getElementById("searchInput").value = "";
+  renderProducts();
+  document.getElementById("productsSection")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  searchQuery = document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+  currentCategory = "All";
+  renderProducts();
+});
+
+function addToCart(id) {
+  const product = products.find(item => item.id === id);
+  cart.push(product);
+  document.getElementById("cartCount").textContent = cart.length;
+  alert(product.name + " added to cart!");
+}
+
+function showCart() {
+  if (!cart.length) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  const total = cart.reduce((sum, product) => sum + product.price, 0);
+  const items = cart.map(product =>
+    product.name + " - ₹" + product.price.toLocaleString("en-IN")
+  ).join("\n");
+
+  alert("YOUR CART\n\n" + items +
+    "\n\nTotal: ₹" + total.toLocaleString("en-IN"));
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
